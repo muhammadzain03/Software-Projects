@@ -1,0 +1,107 @@
+<!-- Login.html -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Purrfect Innovations</title>
+    <meta name="description" content="Purrfect Innovations is your go-to destination for feline-friendly home enhancements.">
+    <meta name="keywords" content="Purrfect Innovations, Cat Furniture">
+    <meta name="author" content="Ahmed Abdullah & Muhammad Zain">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="shortcut icon" href="Images/purrefect Innovations Icon.jpg" type="image/x-icon"> 
+    <!-- Add meta tags, title, and link to styles.css here -->
+</head>
+<body class="body">
+    <header class="header">
+        <img src="Images/Purrfect Innovations Logo.png" alt="Company Logo" class="header-logo">
+        <h1>Purrfect Innovations</h1>
+        <!-- Logo and website name go here -->
+    </header>
+    
+    <div class="container">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="Products.html">Shop</a>
+            <a href="Contact.html">Contact Us</a>
+            <a href="Login.html">Login</a>
+        </nav>
+        <!-- Navigation links go here -->
+    </div>
+
+    <main>
+        <form id="loginForm" class="form"> <!-- Assign an ID to the form -->
+            <table>
+                <tr>
+                    <th><label for="username">Username:</label></th>
+                </tr>
+                <tr>
+                    <td><input type="text" id="username" name="username" placeholder="Enter your username" required></td>
+                </tr>
+                <tr>
+                    <th><label for="password">Password:</label></th>
+                </tr>
+                <tr>
+                    <td><input type="password" id="password" name="password" placeholder="Enter your password" required></td>
+                    <td><button type="submit">Login</button></td>
+                </tr>
+            </table>
+            <table>
+                <tr>
+                    <td><p>Don't have an account yet?</p></td>
+                    <td><a href= "Signup.html">Sign up today</a></td>
+                </tr>
+            </table> 
+        </form>
+        <div id="messageBox"></div> <!-- Create a message box container -->
+    </main> 
+    
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form submission
+    
+            // Fetch user data from the API endpoint
+            fetch('https://jsonplaceholder.typicode.com/users')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch user data');
+                    }
+                    return response.json();
+                })
+                .then(users => {
+                    const username = document.getElementById('username').value;
+                    const password = document.getElementById('password').value;
+    
+                    // Find user object that matches the entered username
+                    const user = users.find(user => user.username === username);
+    
+                    if (user) {
+                        // If user is found, check if the entered password matches the user's email
+                        if (user.email === password) {
+                            displayMessage('success', 'Login successful!');
+                        } else {
+                            displayMessage('error', 'Invalid username or useremail. Please Try Again.');
+                        }
+                    } else {
+                        displayMessage('error', 'Invalid Username or Useremail. Please Try Again.');
+                    }
+                })
+                .catch(error => {
+                    displayMessage('error', error.message);
+                });
+        });
+    
+        function displayMessage(type, message) {
+            const messageBox = document.getElementById('messageBox');
+            messageBox.innerHTML = `<p class="${type}">${message}</p>`;
+            messageBox.style.display = 'block'; // Display the message box
+        }
+    </script>       
+
+    <footer class="footer">
+        <p>Purrfect Innovation &copy; 2024 </p>
+        <!-- Copyright notice goes here -->
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,139 @@
+<!--Products.html-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Purrfect Innovations</title>
+    <meta name="description" content="Purrfect Innovations is your go-to destination for feline-friendly home enhancements.">
+    <meta name="keywords" content="Purrfect Innovations, Cat Furniture">
+    <meta name="author" content="Ahmed Abdullah & Muhammad Zain">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel=" shortcut icon" href="Images/purrefect Innovations Icon.jpg" type="image/x=icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Add meta tags, title, and link to styles.css here -->
+</head>
+<body class = "body">
+    <header class = "header">
+        <img src = "Images/Purrfect Innovations Logo.png" alt = "Company Logo" width = 12% class = "header-logo">
+        <h1>Purrfect Innovations</h1>
+        <!-- Logo and website name go here -->
+    </header>
+    <div class = "container">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="Products.html">Shop</a>
+            <a href="Contact.html">Contact Us</a>
+            <a href="Login.html">Login</a>
+        </nav>
+        <!-- Navigation links go here -->
+    </div>
+    <main>
+        <div class = "products">
+            <div class = "items">
+                <img src="Images/PI Listing Image Sand.jpg" alt="Shelf Listing Image">
+                <h3>Purrfect Cat Shelf - Sand</h3>
+                <p>$69.99</p>
+                <button onclick="addToCart('Purrfect Cat Shelf - Sand', '69.99')">Add to Cart</button>
+            </div>
+            <div class = "items">
+                <img src="Images/PI Listing Image Brown.jpg" alt="Shelf Listing Image">
+                <h3>Purrfect Cat Shelf - Brown</h3>
+                <p>$69.99</p>
+                <button onclick="addToCart('Purrfect Cat Shelf - Brown', '69.99')">Add to Cart</button>
+            </div>
+            <div class = "items">
+                <img src="Images/PI Cat Shelf Set.jpg" alt="Cat Shelf Set Image">
+                <h3>Purrfect Cat Shelf Set 1</h3>
+                <p>$109.99</p>
+                <button onclick="addToCart('Purrfect Cat Shelf Set 1', '109.99')">Add to Cart</button>
+            </div>
+            <div class = "items">
+                <img src="Images/PI Cat Shelf Set 2.jpg" alt="Cat Shelf Set 2 Image">
+                <h3>Purrfect Cat Shelf Set 2</h3>
+                <p>$129.99</p>
+                <button onclick="addToCart('Purrfect Cat Shelf Set 2', '129.99')">Add to Cart</button>
+            </div>
+            <div class = "items">
+                <img src="Images/PI Step Listing Image Sand.jpg" alt="Step Listing Image">
+                <h3>Purrfect Cat Step - Sand</h3>
+                <p>$29.99</p>
+                <button onclick="addToCart('Purrfect Cat Step - Sand', '29.99')">Add to Cart</button>
+            </div>
+            <div class = "items">
+                <img src="Images/PI Step Listing Image Brown.jpg" alt="Step Listing Image">
+                <h3>Purrfect Cat Step - Brown</h3>
+                <p>$29.99</p>
+                <button onclick="addToCart('Purrfect Cat Shelf - Brown', '29.99')">Add to Cart</button>
+            </div>
+            <div class = "items">
+                <img src="Images/Catnip Stick Product Image.jpg" alt="Catnip Image">
+                <h3>Purrfect Catnip</h3>
+                <p>$12.99</p>
+                <button onclick="addToCart('Purrfect Catnip', '12.99')">Add to Cart</button>
+            </div>
+            <div class = "items">
+                <img src="Images/Purrfect Cat Hammock.jpg" alt="Purrfect Cat Hammock Image">
+                <h3>Purrfect Cat Hammock</h3>
+                <p>$59.99</p>
+                <button onclick="addToCart('Purrfect Cat Hammock', '59.99')">Add to Cart</button>
+            </div>
+            <div id = "cart">
+                <h2>Shopping Cart</h2>
+            </div>
+        </div>
+    </main>
+    <footer class = "footer">
+        <!-- Copyright notice goes here -->
+        <p>Purrfect Innovation &copy; 2024 </p>
+    </footer>
+    <script>
+        const cart = {};
+
+        function addToCart(name, price) {
+            if (cart[name]) {
+                cart[name].quantity++;
+            }
+            else{
+                cart[name] = {
+                    price: price,
+                    quantity: 1
+                };
+            }
+            updateCartDisplay(name);
+
+            alert(`${name} has been added to the cart`);
+        }
+
+        function updateCartDisplay(name){
+            const cartElement = document.getElementById('cart');
+            const existingCartItem = cartElement.querySelector(`[data-name="${name}"]`);
+            if (existingCartItem) {
+                existingCartItem.querySelector('.quantity').textContent = cart[name].quantity;
+            } 
+            else {
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item');
+                cartItem.dataset.name = name;
+                cartItem.innerHTML = `
+                <p>${name} ~ $${cart[name].price} ~ Quantity: <span class = 'quantity'>${cart[name].quantity}</span>
+                <button class="removeButton" onclick="removeFromCart('${name}')">Remove</button></p>`;
+            cartElement.appendChild(cartItem);
+            }
+        }
+
+        function removeFromCart(name) {
+            if (cart[name]) {
+                cart[name].quantity--;
+                if (cart[name].quantity == 0) {
+                    delete cart[name];
+                }
+                const cartItemToRemove = document.querySelector(`.cart-item[data-name="${name}"]`);
+                if (cartItemToRemove) {
+                    cartItemToRemove.remove();
+                }
+            } 
+            updateCartDisplay(name);
+        }
+    </script>
+</body>
+</html> 

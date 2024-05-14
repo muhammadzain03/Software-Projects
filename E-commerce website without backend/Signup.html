@@ -1,0 +1,112 @@
+<!-- Sign-Up.html -->
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <title>Purrfect Innovations</title>
+    <meta name="description" content="Purrfect Innovations is your go-to destination for feline-friendly home enhancements.">
+    <meta name="keywords" content="Purrfect Innovations, Cat Furniture">
+    <meta name="author" content="Ahmed Abdullah & Muhammad Zain">
+    <link rel="stylesheet" href="Styles.css">
+    <link rel="shortcut icon" href="Images/purrefect Innovations Icon.jpg" type="image/x-icon"> 
+</head>
+
+<body class="body">
+    <header class="header">
+        <img src="Images/Purrfect Innovations Logo.png" alt="Company Logo" class="header-logo">
+        <h1>Purrfect Innovations</h1>
+    </header>
+    
+    <div class="container">
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="Products.html">Shop</a>
+            <a href="Contact.html">Contact Us</a>
+            <a href="Login.html">Login</a>
+        </nav>
+    </div>
+
+    <main id="main">
+        <form class="signup-form" onsubmit="return validateForm()">
+            <table>
+                <tr>
+                    <th><label for="username">Username:</label></th>
+                </tr>
+                <tr>
+                    <td><input type="text" id="username" name="username" class="signup-form-input" placeholder="Enter your username" required></td>
+                </tr>
+                <tr>
+                    <th><label for="password">Password:</label></th>
+                </tr>
+                <tr>
+                    <td><input type="password" id="password" name="password" class="signup-form-input" placeholder="Enter your password" required></td>
+                </tr>
+                <tr>
+                    <th><label for="confirmPassword">Confirm Password:</label></th>
+                </tr>
+                <tr>
+                    <td><input type="password" id="confirmPassword" name="confirmPassword" class="signup-form-input" placeholder="Re-enter your password" required></td>
+                </tr>
+                <tr>
+                    <th><label for="email">Email:</label></th>
+                </tr>
+                <tr>
+                    <td><input type="email" id="email" name="email" class="signup-form-input" placeholder="Enter your email" required></td>
+                    <td><button type="submit" class="signup-form-button">Signup</button></td>
+                </tr>
+            </table>
+        </form>
+    </main>
+
+    <footer class="footer">
+        <p>Purrfect Innovation &copy; 2024 </p>
+    </footer>
+
+    <script>
+        function validateForm() {
+            var username = document.getElementById("username").value;
+            var password = document.getElementById("password").value;
+            var confirmPassword = document.getElementById("confirmPassword").value;
+            var email = document.getElementById("email").value;
+            var errorMessage = "";
+
+            if (!/^[a-z][a-z0-9_-]{2,19}$/i.test(username)) {
+                errorMessage += "Invalid username\n";
+            }
+            if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()-_=+\[\]{}|;:'",.<>?/`~])[A-Za-z\d!@#$%^&*()-_=+\[\]{}|;:'",.<>?/`~]{8,}$/.test(password)) {
+                errorMessage += "Invalid password\n";
+            }
+            if (password !== confirmPassword) {
+                errorMessage += "Passwords do not match\n";
+            }
+            if (!/\S+@\S+\.\S{2,}/.test(email)) {
+                errorMessage += "Invalid email address\n";
+            }
+
+            if (errorMessage !== "") {
+                displayMessage(errorMessage);
+                return false;
+            } else {
+                displayMessage("Signup successful!");
+                return false;
+            }
+        }
+
+        function displayMessage(message) {
+            var messageBox = document.createElement("div");
+            messageBox.classList.add("signup-message-box");
+            var messageText = document.createElement("p");
+            messageText.innerHTML = message.replace(/\n/g, "<br>");
+            messageBox.appendChild(messageText);
+            var main = document.getElementById("main");
+            main.appendChild(messageBox);
+            setTimeout(function() {
+                main.removeChild(messageBox);
+            }, 5000); // Remove message after 5 seconds
+        }
+    </script>
+
+</body>
+
+</html>

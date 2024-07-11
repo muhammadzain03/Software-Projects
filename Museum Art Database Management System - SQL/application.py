@@ -7,7 +7,7 @@ def display_data(cur):
 def guest_view(cur):
     print('')
     print("____WELCOME___")
-    while(True):
+    while True:
         print('What would you like to view?')
         print('1-Art Objects')
         print('2-Artists')
@@ -27,8 +27,8 @@ def guest_view(cur):
                 cur.execute('''SELECT
                             A.ARTIST,       A.YEAR,     A.TITLE,        A.DESCRIPTION,
                             A.CULTURE,      A.EPOCH,    A.EXHIBITION,
-                            P.PAINT_TYPE,   P.DRAWN,    P.STYLE
-                            FROM ART_OBJECT AS A JOIN PAINTING AS P ON A.ID_NUM = P.ID_NUM''')
+                            P.PAINT_TYPE,   P.Drawn_on,    P.STYLE
+                            FROM ART_MUSEUM.ART_OBJECT AS A JOIN ART_MUSEUM.PAINTING AS P ON A.ID_NUM = P.ID_NUM''')
                 display_data(cur)
 
             elif choice == '2':
@@ -36,7 +36,7 @@ def guest_view(cur):
                             A.ARTIST,       A.YEAR,     A.TITLE,        A.DESCRIPTION,
                             A.CULTURE,      A.EPOCH,    A.EXHIBITION,
                             P.MATERIAL,     P.HEIGHT,   P.HEIGHT,       P.STYLE
-                             FROM ART_OBJECT AS A JOIN SCULPTURE_STATUE AS P ON A.ID_NUM = P.ID_NUM''')
+                             FROM ART_MUSEUM.ART_OBJECT AS A JOIN ART_MUSEUM.SCULPTURE_STATUE AS P ON A.ID_NUM = P.ID_NUM''')
                 display_data(cur)
                 
             elif choice == '3':
@@ -44,7 +44,7 @@ def guest_view(cur):
                             A.ARTIST,       A.YEAR,     A.TITLE,        A.DESCRIPTION,
                             A.CULTURE,      A.EPOCH,    A.EXHIBITION,
                             P.Type,         P.STYLE
-                            FROM ART_OBJECT AS A JOIN OTHER AS P ON A.ID_NUM = P.ID_NUM''')
+                            FROM ART_MUSEUM.ART_OBJECT AS A JOIN ART_MUSEUM.OTHER AS P ON A.ID_NUM = P.ID_NUM''')
                 display_data(cur)
             
             else:
@@ -55,22 +55,21 @@ def guest_view(cur):
             cur.execute('''SELECT
                         NAME,               DATE_BORN,  DATE_DIED,
                         COUNTRY_OF_ORIGIN,  Epoch,      MAIN_STYLE,     DESCRIPTION
-                        FROM ARTIST''')
+                        FROM ART_MUSEUM.ARTIST''')
             display_data(cur)
 
         elif user_user_selection == '3':
             cur.execute('''SELECT
                         NAME,           START_DATE,      END_DATE
-                        FROM EXHIBITION''')
+                        FROM ART_MUSEUM.EXHIBITION''')
             display_data(cur)
            
         else:
             print('Invalid input.')
             continue
-                  
 
 def get_table_names(cur):
-    cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'ARTMUSEM'")
+    cur.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'ART_MUSEUM'")
     return [table[0] for table in cur.fetchall()]
 
 def display_table(cur, table_name):
@@ -259,39 +258,37 @@ if __name__ == "__main__":
     print("1-Admin")
     print("2-Employee")
     print("3-Guest")
-    print("0-Quit")
+    print("4-Quit")
 
     user_selection = input("please type 1, 2, or 3 to select your role: ")
     while user_selection not in ['1', '2', '3', '0']:
         user_selection = input("Invalid input, please enter either 1, 2, 3, or 0: ")
     
-    if user_selection == '0':
+    if user_selection == '4':
         print('Thank you for using our database!')
         exit()
 
     if user_selection in ['1','2']:
-        username= input("user name: ")
-        passcode= input("password: ")
+        username = input("username: ")
+        passcode = input("password: ")
 
     else:
-        username="guest"
-        passcode=None
+        username = "guest"
+        passcode = None
     
-    
-  
     cnx = mysql.connector.connect(
-    user = username,
-    password = passcode,
-    autocommit = True
+        user=username,
+        password=passcode,
+        autocommit=True
     )
-    if (cnx.is_connected()):
+
+    if cnx.is_connected():
         print("Connection Successful")
-    
     else:
         print("Connection Unsuccessful")
 
     cur = cnx.cursor(buffered=True)
-    cur.execute("use ARTMUSEUM")
+    cur.execute("USE ART_MUSEUM")
 
     if user_selection == '3':
         guest_view(cur)
@@ -299,4 +296,3 @@ if __name__ == "__main__":
         employee_view(cur)
     elif user_selection == '1':
         admin_view(cur)
-
